@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<table border="1" cellpadding="0" cellspacing="0">
+    <tr>
+        <th>品牌名称</th>
+        <th>企业名称</th>
+        <th>品牌介绍</th>
+    </tr>
+    <tbody id="tbody">
+
+    </tbody>
+</table>
+<hr/>
+品牌名称:<input type="text" id="brandName"><br>
+企业名称:<input type="text" id="companyName"><br><br>
+描述信息:<textarea id="description" rows="5" cols="30"></textarea>
+<button id="addBtn" width="200">增加</button>
+</body>
+<script>
+    window.onload = function () {
+        axios({
+            method: "get",
+            url: "http://localhost:9090/brand"
+        }).then(function (resp) {
+            // 1. 获取响应数据
+            let brands = resp.data;
+            let brandData = '';
+            // 2. 遍历响应数据 brands
+            for (let i = 0; i < brands.length; i++) {
+                let brand = brands[i];
+                //  3. 从 brand 对象中获取数据并且拼接DOM
+                brandData +=
+                    `<tr>
+                         <td>${brand.brandName}</td>
+                         <td>${brand.companyName}</td>
+                         <td>${brand.description}</td>
+                     </tr>
+                    `;
+            }
+            document.getElementById("tbody").innerHTML = brandData;
+        });
+
+        document.getElementById('addBtn').onclick = function (){
+            let brandData = {
+                brandName: "",
+                companyName: "",
+                description: ""
+            };
+            brandData.brandName = document.getElementById("brandName").value;
+            brandData.companyName = document.getElementById("companyName").value;
+            brandData.description = document.getElementById("description").value;
+            console.log(brandData);
+            axios.post('http://localhost:9090/brand',brandData,{}).then(function (response){
+                const tr = document.createElement('tr');
+                let brand = response.data;
+                let brandData =
+                    `<td>${brand.brandName}</td>
+                     <td>${brand.companyName}</td>
+                     <td>${brand.description}</td>
+                 `;
+                tr.innerHTML = brandData;
+                document.getElementById("tbody").appendChild(tr);
+            })
+        }
+    }
+</script>
+</html>

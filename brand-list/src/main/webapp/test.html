@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<form action="/test" method="post">
+    <input type="text" name="username" value="zs"><br>
+    <input type="text" name="password" value="123"><br>
+    <input type="submit" value="提交">
+</form>
+    <script>
+        const params = new URLSearchParams();
+        params.append("username","zs");
+        params.append("password","123");
+        axios.post("/test",params);
+    </script>
+</body>
+</html>

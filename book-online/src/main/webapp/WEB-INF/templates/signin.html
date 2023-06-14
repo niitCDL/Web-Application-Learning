@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>注册</h1>
+<form>
+    用户名:<input type="text" id="sign-account"><br>
+    密码:<input type="password" id="sign-password"><br>
+</form>
+<button id="signInBtn">注册</button>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span style="color: red" id="msg"></span>
+</body>
+<script src="js/jquery-3.4.1.js"></script>
+<script>
+    var flag = true;
+    $(function () {
+        $("#signInBtn").click(function () {
+            if (flag) {
+                $.ajax({
+                    url: "signIn",
+                    type: "post",
+                    data: {
+                        account: $("#sign-account").val(),
+                        password: $("#sign-password").val()
+                    },
+                    success: function (respText) {
+                        if ("true" == respText) {
+                            window.location.href = "http://localhost:9090/book_online_war_exploded/success";
+                        } else {
+                            $("#msg").text(respText);
+                        }
+                    }
+                })
+            }
+        })
+
+        $("#sign-account").blur(function () {
+            $.ajax({
+                url: "isExist",
+                data: {account: $(this).val()},
+                success: function (respText) {
+                    if ("用户名已存在" == respText) {
+                        $("#msg").text(respText);
+                        flag = false;
+                    }else {
+                        flag = true;
+                        $("#msg").text("");
+                    }
+                }
+            });
+        })
+    })
+</script>
+</html>

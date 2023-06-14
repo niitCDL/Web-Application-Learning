@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>首页</title>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <ul>
+            <li>
+                <a href="/index">首页</a>
+            </li>
+            <li>
+                <a href="#">读书</a>
+            </li>
+            <li>
+                <a href="#">音乐</a>
+            </li>
+            <li>
+                <a href="#">小组</a>
+            </li>
+            <li>
+                <a href="#">同城</a>
+            </li>
+            <li>
+                <a href="#">FM</a>
+            </li>
+            <li>
+                <a href="#">时间</a>
+            </li>
+            <li>
+                <a href="#">更多</a>
+            </li>
+        </ul>
+
+        <ul>
+            <li>
+                <a href="/user">
+                    <img th:src="${session.user.avatar}" alt="" class="avatar">
+                </a>
+            </li>
+            <li>
+                <a href="#">退出</a>
+            </li>
+            <a href="#">登录</a>
+        </ul>
+    </body>
+</html>

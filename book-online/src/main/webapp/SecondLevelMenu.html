@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<body>
+<select id="lv1" style="width: 200px;height: 40px">
+    <option value="-1">请选择...</option>
+</select>
+<select id="lv2" style="width: 200px;height: 40px">
+    <option value="-1">请选择...</option>
+</select>
+<script>
+    let lv1 = document.getElementById("lv1");
+    axios.get("http://localhost:9090/channel?level=1").then(function (resp) {
+        const jsonData = resp.data;
+        for (var i = 0; i < jsonData.length; i++) {
+            const obj = jsonData[i];
+            lv1.options.add(new Option(obj.name, obj.code));
+        }
+    });
+    let lv2 = document.getElementById("lv2");
+    lv1.onchange = function () {
+        lv2.options.length = 0;
+        const parent = lv1.options[lv1.selectedIndex].value;
+        axios.get("http://localhost:9090/channel?level=2&parent="+parent).then(function (resp) {
+            const jsonData = resp.data;
+            lv2.options.add(new Option("请选择...","-1"))
+            for (var i = 0; i < jsonData.length; i++) {
+                const obj = jsonData[i];
+                lv2.options.add(new Option(obj.name, obj.code));
+            }
+        });
+    }
+</script>
+</body>
+</html>
